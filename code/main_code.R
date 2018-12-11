@@ -9,7 +9,7 @@ library(ggstance)
 library(lattice)
 
 
-df_songs <- read_csv("~/Desktop/678-final-project/data/songs.csv")
+df_songs <- read_csv("Data/songs.csv")
 
 #drop columns of NA&zero
 df1 <- dplyr::select(df_songs, -(energy:idx_tatums_start))
@@ -165,10 +165,6 @@ ggplot(df9, aes(artist_familiarity, song_hotttnesss, color=decade))+
 
 
 #mixed model
-ggplot(df9, aes(artist_familiarity, song_hotttnesss, color=decade)) +
-  geom_line(aes(y=predict(mix_model), group=decade))
-
-
 mix_model <- lmer(df9$song_hotttnesss ~ z_artist_hotttnesss + z_artist_familiarity + z_duration + z_end_of_fade_in +
                     z_key + z_key_confidence + z_loudness + z_mode + z_mode_confidence + z_start_of_fade_out +
                     z_tempo + z_time_signature + z_time_signature_confidence +
@@ -179,6 +175,10 @@ mix_model <- lmer(df9$song_hotttnesss ~ z_artist_hotttnesss + z_artist_familiari
                     z_decade:z_artist_hotttnesss +
                     (1|decade))
 summary(mix_model)
+
+ggplot(df9, aes(artist_familiarity, song_hotttnesss, color=decade)) +
+  geom_line(aes(y=predict(mix_model), group=decade))
+
 ## look at random effect
 lattice::dotplot(ranef(mix_model, condVar=TRUE))
 
