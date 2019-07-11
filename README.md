@@ -1,2 +1,2 @@
-# 678-final-project
-Analysis on Million Song Dataset
+# Million Songs Dataset
+Analysis on Million Songs Dataset
